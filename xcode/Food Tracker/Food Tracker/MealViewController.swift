@@ -29,6 +29,13 @@ class MealViewController: UIViewController, UITextFieldDelegate,
         // Handle the text field's user input through delegate callbacks.
         nameTextField.delegate = self
 
+        if let meal = meal {
+            navigationItem.title = meal.name
+            nameTextField.text = meal.name
+            photoImageView.image = meal.photo
+            ratingControl.rating = meal.rating
+        }
+
         // Enable the Save button only if the text field has a valid Meal Name.
         checkValidMealName()
     }
@@ -78,13 +85,23 @@ class MealViewController: UIViewController, UITextFieldDelegate,
             let photo = photoImageView.image
             let rating = ratingControl.rating
 
-            // Set the meal to be passed ot the MealTableViewController after
+            // Set the meal to be passed to the MealTableViewController after
             // the unwind segue.
             meal = Meal(name: name, photo: photo, rating: rating)
         }
     }
 
     @IBAction func cancel(sender: UIBarButtonItem) {
+        // Deoending on the style of presentation (Modal or Push), this view
+        // controller needs to be dismissed in two different ways.
+        let isPresentingInAddMealMode = presentingViewController is UINavigationController
+
+        if isPresentingInAddMealMode {
+            dismissViewControllerAnimated(true, completion: nil)
+        }
+        else {
+            navigationController!.popViewControllerAnimated(true)
+        }
         dismissViewControllerAnimated(true, completion: nil)
     }
 
