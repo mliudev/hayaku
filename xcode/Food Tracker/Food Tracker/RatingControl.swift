@@ -40,9 +40,7 @@ class RatingControl: UIView {
                 forControlEvents: .TouchDown)
             ratingButtons += [button]
             addSubview(button)
-        }
-
-        updateButtonSelectionStates()
+        }   
     }
 
     override func layoutSubviews() {
@@ -53,6 +51,8 @@ class RatingControl: UIView {
             buttonFrame.origin.x = CGFloat(index * (buttonSize + spacing))
             button.frame = buttonFrame
         }
+
+        updateButtonSelectionStates()
     }
 
     override func intrinsicContentSize() -> CGSize {
